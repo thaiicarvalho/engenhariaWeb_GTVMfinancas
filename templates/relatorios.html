@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GTVM Finanças — Relatórios</title>
+
+  <!-- Estilos globais -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}" />
+
+  <!-- Estilos específicos desta página -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/relatorios.css')}}" />
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a class="navbar-marca" href="{{ url_for('home') }}">
+      <span class="marca-titulo">GTVM</span>
+      <span class="marca-subtitulo">Finanças</span>
+    </a>
+
+    <ul class="navbar-nav">
+      <li><a href="{{ url_for('home') }}">Menu Principal</a></li>
+      <li><a href="{{ url_for('lancamentos') }}">Lançamentos</a></li>
+      <li><a href="{{ url_for('relatorios') }}" class="ativo">Relatórios</a></li>
+      <li><a href="{{ url_for('investimentos') }}">Investimentos</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main class="main">
+
+    <!-- FILTROS DE RELATÓRIO -->
+    <form class="card-filtros-relatorio" method="GET" action="{{ url_for('relatorios') }}">
+      <h2>Filtros de Relatório</h2>
+
+      <div class="filtros-linha">
+
+        <div class="filtro-campo">
+          <label for="data-inicial">Data Inicial</label>
+          <input type="date" id="data-inicial" name="data_inicial" />
+        </div>
+
+        <div class="filtro-campo">
+          <label for="data-final">Data Final</label>
+          <input type="date" id="data-final" name="data_final" />
+        </div>
+
+        <div class="filtro-campo">
+          <label for="filtro-mes">Mês</label>
+          <select id="filtro-mes" name="mes">
+
+            <option value="Todos">Todos</option>
+            <option value="1">Janeiro</option>
+            <option value="2">Fevereiro</option>
+            <option value="3">Março</option>
+            <option value="4">Abril</option>
+            <option value="5">Maio</option>
+            <option value="6">Junho</option>
+            <option value="7">Julho</option>
+            <option value="8">Agosto</option>
+            <option value="9">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11">Novembro</option>
+            <option value="12">Dezembro</option>
+
+          </select>
+        </div>
+
+        <div class="filtro-campo">
+          <label for="filtro-ano">Ano</label>
+
+          <input type="number" id="filtro-ano" name="ano" placeholder="Ex: 2026" min="2000" max="2100"
+            value="{{ request.args.get('ano', '') }}" />
+        </div>
+
+        <div class="filtro-campo-botao">
+          <button class="botao-gerar" type="submit">
+            Gerar Relatório
+          </button>
+        </div>
+
+      </div>
+    </form>
+
+
+    <!-- RESUMO FINANCEIRO -->
+    <section class="secao-resumo">
+      <h2>Resumo Financeiro</h2>
+
+      <div class="resumo-cards">
+
+        <div class="resumo-card receita">
+          <div class="resumo-label">Total de Receitas</div>
+          R$ {{ "%.2f"|format(total_receitas) }}
+        </div>
+
+        <div class="resumo-card despesa">
+          <div class="resumo-label">Total de Despesas</div>
+          R$ {{ "%.2f"|format(total_despesas) }}
+        </div>
+
+        <div class="resumo-card saldo">
+          <div class="resumo-label">Saldo Final</div>
+          R$ {{ "%.2f"|format(saldo_final) }}
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- GRÁFICOS: Pizza de Gastos + Card Emergencial -->
+    <div class="graficos-linha">
+
+      <!-- Gráfico de pizza por categoria -->
+      <div class="card-grafico-gastos">
+        <h3>Gráfico de Gastos</h3>
+
+        <div class="grafico-centro">
+          <!-- Donut SVG rotacionado via CSS -->
+          <div class="donut-container">
+            <svg width="180" height="180" viewBox="0 0 180 180">
+
+              {% for categoria in categorias %}
+
+              <circle cx="90" cy="90" r="66" fill="none" stroke="{{ categoria.cor }}" stroke-width="30"
+                stroke-dasharray="{{ categoria.dasharray }}" stroke-dashoffset="{{ categoria.dashoffset }}" />
+
+              {% endfor %}
+
+            </svg>
+          </div>
+
+          <!-- Legenda do gráfico de pizza -->
+          <div class="legenda-relatorio legenda">
+
+            {% for categoria in categorias %}
+
+            <div class="legenda-item">
+
+              <div class="legenda-ponto" style="background: {{ categoria.cor }};"></div>
+
+              {{ categoria.nome }}
+              {{ "%.1f"|format(categoria.porcentagem) }}%
+
+            </div>
+
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Card de Gastos Emergenciais -->
+      <div class="card-emergencial">
+
+        <div class="emergencial-icone">
+          <!-- Ícone de alerta (triângulo) -->
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 20h20L12 2z" stroke="#fff" stroke-width="2" stroke-linejoin="round" />
+            <path d="M12 9v5" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+            <circle cx="12" cy="17" r="1" fill="#fff" />
+          </svg>
+        </div>
+
+        <h3>Gastos Emergenciais</h3>
+        <p class="emergencial-descricao">Atenção aos gastos não planejados</p>
+        {{ "%.1f"|format(porcentagem_emergencial) }}% do total de despesas
+
+      </div>
+
+    </div>
+
+
+
+    <!-- TABELA DE GASTOS POR CATEGORIA -->
+    <div class="card secao-analise">
+
+      <h3>Análise de Gastos por Categoria</h3>
+
+      <div class="tabela-wrapper">
+
+        <table class="tabela-categorias">
+
+          <thead>
+            <tr>
+              <th>Categoria</th>
+              <th>Total</th>
+              <th>% dos Gastos</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for categoria in categorias %}
+
+            <tr>
+
+              <td>
+                {{ categoria.nome }}
+              </td>
+
+              <td>
+                R$ {{ "%.2f"|format(categoria.valor) }}
+              </td>
+
+              <td>
+                {{ "%.1f"|format(categoria.porcentagem) }}%
+              </td>
+
+            </tr>
+
+            {% endfor %}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+
+</html>

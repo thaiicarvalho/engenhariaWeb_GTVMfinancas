@@ -1,0 +1,271 @@
+/* ============================================================
+   GTVM FINANÇAS — index.css
+   Estilos exclusivos da página Menu Principal (Dashboard).
+   Complementa o global.css sem repetir estilos já definidos.
+   ============================================================ */
+
+
+/* ============================================================
+   HERO CARD (banner superior com logo e acesso rápido)
+   ============================================================ */
+.hero-card {
+  background: linear-gradient(135deg, #8fad98 0%, #7a9e87 60%, #6a9278 100%);
+  border-radius: 14px;
+  padding: 36px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+/* Bloco com ícone + texto da marca */
+.hero-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-logo-icone {
+  width: 54px;
+  height: 54px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-logo-icone svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Nome e tagline dentro do hero */
+.hero-logo-texto .marca-nome {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a3d2b;
+  letter-spacing: 1px;
+}
+
+.hero-logo-texto .marca-nome span {
+  color: #c87941; /* laranja para "FINANÇAS" */
+}
+
+.hero-logo-texto .marca-tagline {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  color: rgba(26, 61, 43, 0.7);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 2px;
+  border-bottom: 1.5px solid rgba(26, 61, 43, 0.3);
+  padding-bottom: 2px;
+}
+
+
+/* ============================================================
+   ACESSO RÁPIDO (botões + e − no hero)
+   ============================================================ */
+.acesso-rapido {
+  text-align: center;
+}
+
+.acesso-rapido .acesso-titulo {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.acesso-botoes {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.acesso-grupo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.acesso-grupo-label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+/* Botão circular de ação rápida */
+.acesso-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 26px;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.acesso-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.acesso-btn-entrada { background: #2d5a3d; }
+.acesso-btn-saida   { background: #b85c3a; }
+
+
+/* ============================================================
+   GRADE DE GRÁFICOS (dois cards lado a lado)
+   ============================================================ */
+.dashboard-graficos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Card verde com gráfico donut */
+.grafico-card {
+  background: linear-gradient(135deg, #8fad98 0%, #7a9e87 100%);
+  border-radius: 14px;
+  padding: 28px 32px;
+  color: #fff;
+}
+
+.grafico-card-titulo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.grafico-card-valor {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.grafico-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* ============================================================
+   GRÁFICO DONUT (SVG)
+   ============================================================ */
+.donut-container {
+  position: relative;
+  display: inline-block;
+  width: 180px;
+  height: 180px;
+}
+
+/* Rotaciona o SVG para que o início seja no topo */
+.donut-container svg {
+  transform: rotate(-90deg);
+}
+
+/* Rótulo central sobreposto ao donut */
+.donut-rotulo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.donut-rotulo .rotulo-texto {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.donut-rotulo .rotulo-pct {
+  font-size: 15px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.modal-overlay {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.5);
+
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+}
+
+.modal-card {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    width: 400px;
+
+    position: relative;
+}
+
+.modal-fechar {
+
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+/* ============================================================
+   RESPONSIVIDADE DA PÁGINA INDEX
+   ============================================================ */
+@media (max-width: 1024px) {
+  .dashboard-graficos {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-card {
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .acesso-botoes {
+    gap: 20px;
+  }
+}

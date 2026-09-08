@@ -1,0 +1,61 @@
+/* ============================================================
+   GTVM FINANÇAS — lancamentos.css
+   Estilos exclusivos da página Lançamentos.
+   Complementa o global.css sem repetir estilos já definidos.
+   ============================================================ */
+
+
+/* ============================================================
+   LAYOUT PRINCIPAL DA PÁGINA
+   (sidebar à esquerda + tabela à direita)
+   ============================================================ */
+.lancamentos-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Coluna lateral com os dois cards de formulário */
+.lancamentos-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+/* ============================================================
+   CARDS DE FORMULÁRIO
+   (Filtro de Despesas e Novo Lançamento)
+   ============================================================ */
+.card-filtro,
+.card-novo-lancamento {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+
+/* ============================================================
+   CARD DA TABELA DE LANÇAMENTOS
+   ============================================================ */
+.card-tabela-lancamentos {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.botao{
+  text-decoration: none;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE DA PÁGINA LANÇAMENTOS
+   ============================================================ */
+@media (max-width: 1024px) {
+  /* Em tablets, sidebar vai para cima da tabela */
+  .lancamentos-layout {
+    grid-template-columns: 1fr;
+  }
+}

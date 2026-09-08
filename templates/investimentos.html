@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GTVM Finanças — Investimentos</title>
+
+  <!-- Estilos globais -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}" />
+
+  <!-- Estilos específicos desta página -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/investimentos.css')}}" />
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a class="navbar-marca" href="{{ url_for('home') }}">
+      <span class="marca-titulo">GTVM</span>
+      <span class="marca-subtitulo">Finanças</span>
+    </a>
+
+    <ul class="navbar-nav">
+      <li><a href="{{ url_for('home') }}">Menu Principal</a></li>
+      <li><a href="{{ url_for('lancamentos') }}">Lançamentos</a></li>
+      <li><a href="{{ url_for('relatorios') }}">Relatórios</a></li>
+      <li><a href="{{ url_for('investimentos') }}" class="ativo">Investimentos</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main class="main">
+
+    <div class="investimentos-layout">
+
+      <!-- ===== COLUNA ESQUERDA: Formulário + Total ===== -->
+      <aside class="investimentos-sidebar">
+
+        <!-- Card: Novo Investimento -->
+        <div class="card-novo-investimento">
+
+          <h2 class="card-titulo">
+            Novo Investimento
+          </h2>
+
+          <form method="POST" action="{{ url_for('adicionar_investimento') }}">
+
+            <div class="form-grupo">
+
+              <label class="form-label">
+                Descrição
+              </label>
+
+              <input type="text" name="descricao" class="form-campo" required />
+
+            </div>
+
+            <div class="form-grupo">
+
+              <label class="form-label">
+                Meta
+              </label>
+
+              <input type="number" step="0.01" name="meta" class="form-campo" required />
+
+            </div>
+
+            <div class="form-grupo">
+
+              <label class="form-label">
+                Valor Investido
+              </label>
+
+              <input type="number" step="0.01" name="valor_investido" class="form-campo" required />
+
+            </div>
+
+            <button class="botao botao-principal" type="submit">
+              Adicionar
+            </button>
+
+          </form>
+
+        </div>
+
+
+        <!-- Card: Total Investido no Mês -->
+        <div class="card-total-investido">
+          <div class="total-label">Total Investido no Mês</div>
+          <div class="total-valor">
+            R$ {{ "%.2f"|format(total_investido) }}
+          </div>
+          <div class="total-motivacional">Mantendo o foco nas metas!</div>
+        </div>
+
+      </aside>
+
+
+      <!-- ===== COLUNA DIREITA: Tabela + Resumo de Metas ===== -->
+      <div>
+
+        <div class="card-tabela-investimentos">
+          <h2 class="card-titulo">Meus Investimentos</h2>
+
+          <div class="tabela-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Descrição</th>
+                  <th>Meta</th>
+                  <th>Investido</th>
+                  <th>Restante</th>
+                  <th>Progresso</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {% for investimento in investimentos %}
+
+                <tr>
+
+                  <td>
+                    {{ investimento.descricao }}
+                  </td>
+
+                  <td>
+                    R$ {{ "%.2f"|format(investimento.meta) }}
+                  </td>
+
+                  <td class="valor-verde">
+                    R$ {{ "%.2f"|format(investimento.valor_investido) }}
+                  </td>
+
+                  <td class="valor-laranja">
+
+                    R$
+                    {{ "%.2f"|format(
+                    investimento.meta - investimento.valor_investido
+                    ) }}
+
+                  </td>
+
+                  <td>
+
+                    {% set progresso =
+                    (investimento.valor_investido / investimento.meta) * 100
+                    %}
+
+                    {{ "%.1f"|format(progresso) }}%
+
+                  </td>
+
+                  <td>
+
+                    <div class="celula-acoes">
+
+                      <a href="{{ url_for('editar_investimento', id=investimento.id) }}" class="botao botao-editar"
+                        onclick="return confirm('Deseja editar este investimento?')">
+
+                        Editar
+
+                      </a>
+
+                      <a href="{{ url_for('excluir_investimento', id=investimento.id) }}" class="botao botao-excluir"
+                        onclick="return confirm('Deseja excluir este investimento?')">
+
+                        Excluir
+
+                      </a>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Resumo de metas abaixo da tabela -->
+          <div class="resumo-metas">
+
+            <div class="resumo-meta-box meta-box-verde">
+              <div class="meta-label">Metas Concluídas</div>
+              <div class="meta-valor">
+                {{ metas_concluidas }}
+              </div>
+            </div>
+
+            <div class="resumo-meta-box meta-box-azul">
+              <div class="meta-label">Metas em Andamento</div>
+              <div class="meta-valor">
+                {{ metas_andamento }}
+              </div>
+            </div>
+
+            <div class="resumo-meta-box meta-box-escuro">
+              <div class="meta-label">Total de Metas</div>
+              <div class="meta-valor"> R$ {{ "%.2f"|format(total_metas) }}</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- /coluna direita -->
+
+    </div><!-- /investimentos-layout -->
+
+  </main>
+
+</body>
+
+</html>

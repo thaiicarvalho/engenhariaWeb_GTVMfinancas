@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GTVM Finanças — Lançamentos</title>
+
+  <!-- Estilos globais -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}" />
+
+  <!-- Estilos específicos desta página -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/lancamentos.css')}}" />
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a class="navbar-marca" href="{{ url_for('home') }}">
+      <span class="marca-titulo">GTVM</span>
+      <span class="marca-subtitulo">Finanças</span>
+    </a>
+
+    <ul class="navbar-nav">
+      <li><a href="{{ url_for('home') }}">Menu Principal</a></li>
+      <li><a href="{{ url_for('lancamentos') }}" class="ativo">Lançamentos</a></li>
+      <li><a href="{{ url_for('relatorios') }}">Relatórios</a></li>
+      <li><a href="{{ url_for('investimentos') }}">Investimentos</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main class="main">
+
+    <div class="lancamentos-layout">
+
+      <!-- ===== COLUNA ESQUERDA: Filtro + Formulário ===== -->
+      <aside class="lancamentos-sidebar">
+
+        <!-- Card: Filtro de Categorias -->
+        <form class="card-filtro" method="GET" action="{{ url_for('lancamentos') }}">
+
+          <h2 class="card-titulo">Filtro de Categorias</h2>
+
+          <div class="form-grupo">
+
+            <label class="form-label" for="filtro-categoria">
+              Categoria
+            </label>
+
+            <select class="form-campo" id="filtro-categoria" name="categoria">
+
+              <option>Todas as categorias</option>
+
+              <option>Salário</option>
+
+              <option>Alimentação</option>
+
+              <option>Moradia</option>
+
+              <option>Transporte</option>
+
+              <option>Saúde</option>
+
+              <option>Educação</option>
+
+              <option>Lazer</option>
+
+              <option>Outros</option>
+
+            </select>
+
+          </div>
+
+          <button class="botao botao-principal" type="submit">
+            Filtrar
+          </button>
+
+        </form>
+
+        <!-- Card: Novo Lançamento -->
+        <form action="{{ url_for('adicionar_lancamento') }}" method="POST" class="card-novo-lancamento">
+          <input type="hidden" name="origem" value="lancamentos">
+
+          <h2 class="card-titulo">Novo Lançamento</h2>
+
+          <div class="form-grupo">
+
+            <label class="form-label" for="novo-tipo">
+              Tipo
+            </label>
+
+            <select name="tipo" class="form-campo" id="novo-tipo">
+              <option>Receita</option>
+              <option>Despesa</option>
+              <option>Despesa Emergencial</option>
+            </select>
+
+          </div>
+
+          <div class="form-grupo">
+
+            <label class="form-label" for="novo-descricao">
+              Descrição
+            </label>
+
+            <input type="text" name="descricao" class="form-campo" id="novo-descricao"
+              placeholder="Ex: Salário mensal" />
+
+          </div>
+
+          <div class="form-grupo">
+
+            <label class="form-label" for="novo-valor">
+              Valor
+            </label>
+
+            <input type="number" name="valor" class="form-campo" id="novo-valor" placeholder="R$ 0,00" />
+
+          </div>
+
+          <div class="form-grupo">
+
+            <label class="form-label" for="novo-categoria">
+              Categoria
+            </label>
+
+            <select name="categoria" class="form-campo" id="novo-categoria">
+
+              <option value="">
+                Selecione uma categoria
+              </option>
+
+              <option>Salário</option>
+              <option>Alimentação</option>
+              <option>Moradia</option>
+              <option>Transporte</option>
+              <option>Saúde</option>
+              <option>Educação</option>
+              <option>Lazer</option>
+              <option>Outros</option>
+
+            </select>
+
+          </div>
+
+          <div class="form-grupo">
+
+            <label class="form-label" for="novo-data">
+              Data
+            </label>
+
+            <input type="date" name="data" class="form-campo" id="novo-data" />
+
+          </div>
+
+          <button class="botao botao-principal" type="submit">
+            Adicionar
+          </button>
+
+        </form>
+
+      </aside>
+
+
+      <!-- ===== COLUNA DIREITA: Tabela de Lançamentos ===== -->
+      <div class="card-tabela-lancamentos">
+        <h2 class="card-titulo">Lançamentos Recentes</h2>
+
+        <div class="tabela-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
+                <th>Valor</th>
+                <th>Data</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for lancamento in lancamentos %}
+
+              <tr>
+
+                <td>
+                  {{ lancamento.descricao }}
+                </td>
+
+                <td>
+
+                  {% if lancamento.tipo == "Receita" %}
+
+                  <span class="badge badge-receita">
+                    Receita
+                  </span>
+
+                  {% elif lancamento.tipo == "Despesa Emergencial" %}
+
+                  <span class="badge badge-despesa">
+                    Despesa E
+                  </span>
+
+                  {% else %}
+
+                  <span class="badge badge-despesa">
+                    Despesa
+                  </span>
+
+                  {% endif %}
+
+                </td>
+
+                <td>
+                  {{ lancamento.categoria }}
+                </td>
+
+                <td>
+
+                  {% if lancamento.tipo == "Receita" %}
+
+                  <span class="valor-verde">
+                    R$ {{ "%.2f"|format(lancamento.valor) }}
+                  </span>
+
+                  {% else %}
+
+                  <span class="valor-vermelho">
+                    R$ {{ "%.2f"|format(lancamento.valor) }}
+                  </span>
+
+                  {% endif %}
+
+                </td>
+
+                <td>
+                  {{ lancamento.data.strftime('%d/%m/%Y') }}
+                </td>
+
+                <td>
+
+                  <div class="celula-acoes">
+
+                    <a href="{{ url_for('editar_lancamento', id=lancamento.id) }}" class="botao botao-editar"
+                      onclick="return confirm('Deseja editar este lançamento?')">
+                      Editar
+                    </a>
+
+                    <a href="{{ url_for('excluir_lancamento', id=lancamento.id) }}" class="botao botao-excluir"
+                      onclick="return confirm('Deseja realmente excluir este lançamento?')">
+                      Excluir
+                    </a>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /lancamentos-layout -->
+
+  </main>
+
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+/* ============================================================
+   GTVM FINANÇAS — investimentos.css
+   Estilos exclusivos da página Investimentos.
+   Complementa o global.css sem repetir estilos já definidos.
+   ============================================================ */
+
+
+/* ============================================================
+   LAYOUT PRINCIPAL DA PÁGINA
+   (sidebar à esquerda + conteúdo principal à direita)
+   ============================================================ */
+.investimentos-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Coluna lateral */
+.investimentos-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+/* ============================================================
+   CARD DE NOVO INVESTIMENTO
+   ============================================================ */
+.card-novo-investimento {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+
+/* ============================================================
+   CARD "TOTAL INVESTIDO NO MÊS"
+   (fundo verde escuro com texto branco)
+   ============================================================ */
+.card-total-investido {
+  background: var(--verde-escuro);
+  border-radius: 12px;
+  padding: 24px;
+  color: #fff;
+}
+
+.total-label {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.total-valor {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+/* Mensagem motivacional no fundo do card */
+.total-motivacional {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+
+/* ============================================================
+   CARD DA TABELA DE INVESTIMENTOS
+   ============================================================ */
+.card-tabela-investimentos {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+
+/* ============================================================
+   LINHA DE RESUMO (Metas Concluídas | Em Andamento | Total)
+   ============================================================ */
+.resumo-metas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* Caixa individual de resumo */
+.resumo-meta-box {
+  border-radius: 10px;
+  padding: 16px 20px;
+  border: 1.5px solid var(--borda);
+}
+
+.resumo-meta-box .meta-label {
+  font-size: 12px;
+  color: var(--texto-claro);
+  margin-bottom: 6px;
+}
+
+.resumo-meta-box .meta-valor {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+
+.botao{
+  text-decoration: none;
+}
+
+
+/* Cores dos valores de resumo */
+.meta-box-verde .meta-valor { color: #2e7d32; }
+.meta-box-azul  .meta-valor { color: #1565c0; }
+.meta-box-escuro .meta-valor { color: var(--texto-escuro); }
+
+
+/* ============================================================
+   RESPONSIVIDADE DA PÁGINA INVESTIMENTOS
+   ============================================================ */
+@media (max-width: 1024px) {
+  .investimentos-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .resumo-metas {
+    grid-template-columns: 1fr;
+  }
+}

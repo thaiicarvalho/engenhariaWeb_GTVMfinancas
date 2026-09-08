@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GTVM Finanças — Menu Principal</title>
+
+  <!-- Estilos globais (compartilhados por todas as páginas) -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}" />
+
+  <!-- Estilos específicos desta página -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}" />
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a class="navbar-marca" href="{{ url_for('home') }}">
+      <span class="marca-titulo">GTVM</span>
+      <span class="marca-subtitulo">Finanças</span>
+    </a>
+
+    <ul class="navbar-nav">
+      <li><a href="{{ url_for('home') }}" class="ativo">Menu Principal</a></li>
+      <li><a href="{{ url_for('lancamentos') }}">Lançamentos</a></li>
+      <li><a href="{{ url_for('relatorios') }}">Relatórios</a></li>
+      <li><a href="{{ url_for('investimentos') }}">Investimentos</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main class="main">
+
+    <!-- HERO CARD: logo + acesso rápido -->
+    <section class="hero-card">
+
+      <!-- Logo e tagline -->
+      <div class="hero-logo">
+        <div class="hero-logo-icone">
+          <!-- Ícone de gráfico de linha -->
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="6" fill="#e8f0fe" />
+            <path d="M8 22 L14 14 L19 18 L26 8" stroke="#1a3d2b" stroke-width="2.5" stroke-linecap="round"
+              stroke-linejoin="round" fill="none" />
+            <path d="M22 8 H26 V12" stroke="#1a3d2b" stroke-width="2.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+
+        <div class="hero-logo-texto">
+          <div class="marca-nome">GTVM<span> FINANÇAS</span></div>
+          <div class="marca-tagline">Organize hoje, construa seu amanhã</div>
+        </div>
+      </div>
+
+      <!-- Botões de acesso rápido -->
+      <div class="acesso-rapido">
+        <div class="acesso-titulo">Acesso Rápido</div>
+        <div class="acesso-botoes">
+
+          <div class="acesso-grupo">
+            <span class="acesso-grupo-label">Entradas</span>
+            <a href="#" onclick="abrirModal('Receita')" class="acesso-btn acesso-btn-entrada" title="Nova Entrada">+</a>
+          </div>
+
+          <div class="acesso-grupo">
+            <span class="acesso-grupo-label">Saídas</span>
+            <a href="#" onclick="abrirModal('Despesa')" class="acesso-btn acesso-btn-saida" title="Nova Saída">−</a>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- GRÁFICOS: Saldo Geral e Gasto Emergencial -->
+    <section class="dashboard-graficos">
+
+      <!-- Card: Saldo Geral -->
+      <div class="grafico-card">
+        <div class="grafico-card-titulo">Saldo Geral</div>
+        <div class="grafico-card-valor">
+          R$ {{ "{:,.2f}".format(saldo).replace(",", "X").replace(".", ",").replace("X", ".") }}
+        </div>
+
+        <div class="grafico-area">
+          <!-- Donut SVG — rotacionado via CSS para iniciar no topo -->
+          <div class="donut-container">
+            <svg width="180" height="180" viewBox="0 0 180 180">
+              <!-- Segmento Gasto: 68.8% -->
+              <circle cx="90" cy="90" r="66" fill="none" stroke="#5dd87a" stroke-width="28"
+                stroke-dasharray="284.7 126.9" stroke-dashoffset="0" />
+              <!-- Segmento Não Gasto: 31.3% -->
+              <circle cx="90" cy="90" r="66" fill="none" stroke="#1a3d2b" stroke-width="28"
+                stroke-dasharray="129.5 282.1" stroke-dashoffset="-284.7" />
+            </svg>
+            <!-- Rótulo central -->
+            <div class="donut-rotulo">
+              <div class="rotulo-texto">Não gasto</div>
+              <div class="rotulo-pct">
+                {{ "%.1f"|format(porcentagem_nao_gasto) }}%
+              </div>
+            </div>
+          </div>
+
+          <!-- Legenda -->
+          <div class="legenda">
+            <div class="legenda-item">
+              <div class="legenda-ponto" style="background:#5dd87a;"></div>
+              Gasto {{ "%.1f"|format(porcentagem_gasto) }}%
+            </div>
+            <div class="legenda-item">
+              <div class="legenda-ponto" style="background:#1a3d2b;"></div>
+              Não gasto {{ "%.1f"|format(porcentagem_nao_gasto) }}%
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Gasto Emergencial -->
+      <div class="grafico-card">
+        <div class="grafico-card-titulo">Gasto Emergencial</div>
+
+        <div class="grafico-area">
+          <div class="donut-container">
+            <svg width="180" height="180" viewBox="0 0 180 180">
+              <!-- Segmento Emergencial: 68.8% -->
+              <circle cx="90" cy="90" r="66" fill="none" stroke="#1a3d2b" stroke-width="28"
+                stroke-dasharray="284.7 126.9" stroke-dashoffset="0" />
+              <!-- Segmento Não Emergencial: 31.3% -->
+              <circle cx="90" cy="90" r="66" fill="none" stroke="#5dd87a" stroke-width="28"
+                stroke-dasharray="129.5 282.1" stroke-dashoffset="-284.7" />
+            </svg>
+            <div class="donut-rotulo">
+              <div class="rotulo-texto">Gasto emergencial</div>
+              <div class="rotulo-pct">
+                {{ "%.1f"|format(porcentagem_emergencial) }}%
+              </div>
+            </div>
+          </div>
+
+          <div class="legenda">
+            <div class="legenda-item">
+              <div class="legenda-ponto" style="background:#5dd87a;"></div>
+
+              Não emergencial
+              {{ "%.1f"|format(porcentagem_nao_emergencial) }}%
+            </div>
+
+            <div class="legenda-item">
+              <div class="legenda-ponto" style="background:#1a3d2b;"></div>
+
+              Emergencial
+              {{ "%.1f"|format(porcentagem_emergencial) }}%
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ===== MODAL NOVO LANÇAMENTO ===== -->
+
+  <div class="modal-overlay" id="modal-lancamento">
+
+    <div class="modal-card">
+
+      <button class="modal-fechar" onclick="fecharModal()">
+        X
+      </button>
+
+      <h2 class="card-titulo">
+        Novo Lançamento
+      </h2>
+
+      <form action="{{ url_for('adicionar_lancamento') }}" method="POST">
+        <input type="hidden" name="origem" value="home">
+
+        <!-- TIPO -->
+        <div class="form-grupo">
+
+          <label class="form-label">
+            Tipo
+          </label>
+
+          <select name="tipo" class="form-campo" id="modal-tipo" required>
+
+            <option value="Receita">
+              Receita
+            </option>
+
+            <option value="Despesa">
+              Despesa
+            </option>
+
+            <option value="Despesa Emergencial">
+              Despesa Emergencial
+            </option>
+
+          </select>
+
+        </div>
+
+        <!-- DESCRIÇÃO -->
+        <div class="form-grupo">
+
+          <label class="form-label">
+            Descrição
+          </label>
+
+          <input type="text" name="descricao" class="form-campo" required>
+
+        </div>
+
+        <!-- VALOR -->
+        <div class="form-grupo">
+
+          <label class="form-label">
+            Valor
+          </label>
+
+          <input type="number" step="0.01" name="valor" class="form-campo" required>
+
+        </div>
+
+        <!-- CATEGORIA -->
+        <div class="form-grupo">
+
+          <label class="form-label">
+            Categoria
+          </label>
+
+          <select name="categoria" class="form-campo" required>
+
+            <option>Salário</option>
+            <option>Alimentação</option>
+            <option>Moradia</option>
+            <option>Transporte</option>
+            <option>Saúde</option>
+            <option>Educação</option>
+            <option>Lazer</option>
+            <option>Outros</option>
+
+          </select>
+
+        </div>
+
+        <!-- DATA -->
+        <div class="form-grupo">
+
+          <label class="form-label">
+            Data
+          </label>
+
+          <input type="date" name="data" class="form-campo" required>
+
+        </div>
+
+        <button type="submit" class="botao botao-principal">
+          Salvar
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+
+</html>

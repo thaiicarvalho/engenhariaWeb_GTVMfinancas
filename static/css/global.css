@@ -1,0 +1,412 @@
+/* ============================================================
+   GTVM FINANÇAS — global.css
+   Estilos compartilhados por todas as páginas do projeto.
+   Contém: reset, variáveis, tipografia, navbar, botões,
+   formulários, tabelas, badges e utilitários responsivos.
+   ============================================================ */
+
+/* ----- Importação de fontes ----- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+
+/* ----- Variáveis de cor e tema ----- */
+:root {
+  /* Verdes */
+  --verde-escuro:   #1a3d2b;
+  --verde-medio:    #2d5a3d;
+  --verde-suave:    #7a9e87;
+  --verde-claro:    #a8c5b0;
+  --verde-card:     #8fad98;
+  --verde-acento:   #4caf72;
+  --verde-brilho:   #5dd87a;
+
+  /* Alertas e destaque */
+  --laranja-escuro: #b85c3a;
+  --vermelho:       #e53935;
+  --azul:           #1976d2;
+  --laranja:        #f57c00;
+  --amarelo:        #f9a825;
+
+  /* Neutros */
+  --fundo:          #f0f0f0;
+  --branco:         #ffffff;
+  --texto-escuro:   #1a1a1a;
+  --texto-medio:    #333333;
+  --texto-claro:    #666666;
+  --borda:          #e0e0e0;
+}
+
+
+/* ----- Reset básico ----- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* ----- Base do corpo ----- */
+body {
+  font-family: 'Poppins', 'Inter', sans-serif;
+  background: var(--fundo);
+  color: var(--texto-escuro);
+  min-height: 100vh;
+}
+
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar {
+  background: var(--verde-escuro);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Logo / marca */
+.navbar-marca {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 6px 12px;
+  text-decoration: none;
+}
+
+.navbar-marca .marca-titulo {
+  display: block;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+
+.navbar-marca .marca-subtitulo {
+  display: block;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Links de navegação */
+.navbar-nav {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.navbar-nav a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding-bottom: 4px;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.navbar-nav a:hover {
+  color: #fff;
+}
+
+/* Link ativo: texto branco + sublinhado */
+.navbar-nav a.ativo {
+  color: #fff;
+  font-weight: 600;
+}
+
+.navbar-nav a.ativo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+
+/* ============================================================
+   CONTAINER PRINCIPAL
+   ============================================================ */
+.main {
+  padding: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+
+/* ============================================================
+   CARD GENÉRICO
+   ============================================================ */
+.card {
+  background: var(--branco);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+/* Título interno de card */
+.card-titulo {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--texto-escuro);
+  margin-bottom: 18px;
+}
+
+
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+.botao {
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+/* Botão principal verde */
+.botao-principal {
+  background: var(--verde-escuro);
+  color: #fff;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.botao-principal:hover {
+  background: var(--verde-medio);
+}
+
+/* Botão de editar (azul) */
+.botao-editar {
+  background: var(--azul);
+  color: #fff;
+  padding: 6px 14px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.botao-editar:hover {
+  background: #1565c0;
+}
+
+/* Botão de excluir (vermelho) */
+.botao-excluir {
+  background: var(--vermelho);
+  color: #fff;
+  padding: 6px 14px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.botao-excluir:hover {
+  background: #c62828;
+}
+
+
+/* ============================================================
+   FORMULÁRIOS
+   ============================================================ */
+.form-grupo {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--texto-medio);
+  margin-bottom: 6px;
+}
+
+.form-campo {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--borda);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--texto-escuro);
+  background: #fff;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+
+.form-campo:focus {
+  outline: none;
+  border-color: var(--verde-escuro);
+}
+
+.form-campo::placeholder {
+  color: #aaa;
+}
+
+/* Seta personalizada para <select> */
+select.form-campo {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+
+/* ============================================================
+   TABELAS
+   ============================================================ */
+.tabela-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-medio);
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1.5px solid var(--borda);
+}
+
+tbody td {
+  padding: 14px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Célula de ações (Editar / Excluir) */
+.celula-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+
+/* ============================================================
+   BADGES DE TIPO
+   ============================================================ */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-receita {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+.badge-despesa {
+  background: #fce4ec;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+}
+
+
+/* ============================================================
+   CORES DE VALORES
+   ============================================================ */
+.valor-verde  { color: var(--verde-acento); font-weight: 600; }
+.valor-vermelho { color: var(--vermelho);   font-weight: 600; }
+.valor-laranja  { color: var(--laranja);    font-weight: 600; }
+.valor-azul     { color: var(--azul);       font-weight: 600; }
+
+
+/* ============================================================
+   BARRA DE PROGRESSO
+   ============================================================ */
+.progresso-trilha {
+  background: #e0e0e0;
+  border-radius: 10px;
+  height: 8px;
+  width: 80px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.progresso-preenchimento {
+  height: 100%;
+  border-radius: 10px;
+  background: var(--verde-escuro);
+}
+
+/* Célula de progresso (barra + percentual) */
+.progresso-celula {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progresso-celula span {
+  font-size: 12px;
+  color: var(--texto-medio);
+}
+
+
+/* ============================================================
+   LEGENDA DE GRÁFICOS
+   ============================================================ */
+.legenda {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.legenda-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.legenda-ponto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE GLOBAL
+   ============================================================ */
+@media (max-width: 900px) {
+  .main        { padding: 16px; }
+  .navbar      { padding: 0 16px; }
+  .navbar-nav  { gap: 16px; }
+  .navbar-nav a { font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+  .navbar-nav   { gap: 10px; }
+  .navbar-nav a { font-size: 11px; }
+
+  table         { font-size: 12px; }
+  thead th,
+  tbody td      { padding: 10px 8px; }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>Editar Lançamento</title>
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/global.css') }}"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/lancamentos.css') }}"
+  >
+
+</head>
+
+<body>
+
+<main class="main">
+
+  <form
+    class="card-novo-lancamento"
+    method="POST"
+    action="{{ url_for('atualizar_lancamento', id=lancamento.id) }}"
+  >
+
+    <h2 class="card-titulo">
+      Editar Lançamento
+    </h2>
+
+    <div class="form-grupo">
+
+      <label class="form-label">
+        Tipo
+      </label>
+
+      <select
+        class="form-campo"
+        name="tipo"
+      >
+
+        <option
+          {% if lancamento.tipo == "Receita" %}selected{% endif %}
+        >
+          Receita
+        </option>
+
+        <option
+          {% if lancamento.tipo == "Despesa" %}selected{% endif %}
+        >
+          Despesa
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="form-grupo">
+
+      <label class="form-label">
+        Descrição
+      </label>
+
+      <input
+        type="text"
+        class="form-campo"
+        name="descricao"
+        value="{{ lancamento.descricao }}"
+      >
+
+    </div>
+
+    <div class="form-grupo">
+
+      <label class="form-label">
+        Valor
+      </label>
+
+      <input
+        type="number"
+        step="0.01"
+        class="form-campo"
+        name="valor"
+        value="{{ lancamento.valor }}"
+      >
+
+    </div>
+
+    <div class="form-grupo">
+
+      <label class="form-label">
+        Categoria
+      </label>
+
+      <select
+        class="form-campo"
+        name="categoria"
+      >
+
+        <option
+          {% if lancamento.categoria == "Salário" %}selected{% endif %}
+        >
+          Salário
+        </option>
+
+        <option
+          {% if lancamento.categoria == "Alimentação" %}selected{% endif %}
+        >
+          Alimentação
+        </option>
+
+        <option
+          {% if lancamento.categoria == "Moradia" %}selected{% endif %}
+        >
+          Moradia
+        </option>
+
+        <option
+          {% if lancamento.categoria == "Transporte" %}selected{% endif %}
+        >
+          Transporte
+        </option>
+
+        <option
+          {% if lancamento.categoria == "Saúde" %}selected{% endif %}
+        >
+          Saúde
+        </option>
+
+        <option
+          {% if lancamento.categoria == "Educação" %}selected{% endif %}
+        >
+          Educação
+        </option>
+
+        <option
+          {% if lancamento.categoria == "Lazer" %}selected{% endif %}
+        >
+          Lazer
+        </option>
+
+        <option
+          {% if lancamento.categoria == "Outros" %}selected{% endif %}
+        >
+          Outros
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="form-grupo">
+
+      <label class="form-label">
+        Data
+      </label>
+
+      <input
+        type="date"
+        class="form-campo"
+        name="data"
+        value="{{ lancamento.data }}"
+      >
+
+    </div>
+
+    <button
+      class="botao botao-principal"
+      type="submit"
+    >
+      Salvar Alterações
+    </button>
+
+  </form>
+
+</main>
+
+</body>
+</html>
